@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react';
-import { CssVarsProvider} from '@mui/joy/styles';
+import { CssVarsProvider } from '@mui/joy/styles';
 import CssBaseline from '@mui/joy/CssBaseline';
 import Box from '@mui/joy/Box';
 import Button from '@mui/joy/Button';
@@ -9,22 +9,45 @@ import Checkbox from '@mui/joy/Checkbox';
 import Divider from '@mui/joy/Divider';
 import FormControl from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
-import Link from '@mui/joy/Link';
 import Input from '@mui/joy/Input';
 import Typography from '@mui/joy/Typography';
 import Stack from '@mui/joy/Stack';
 import GoogleIcon from './GoogleIcon';
-
-interface FormElements extends HTMLFormControlsCollection {
-    email: HTMLInputElement;
-    password: HTMLInputElement;
-    persistent: HTMLInputElement;
-}
-interface SignInFormElement extends HTMLFormElement {
-    readonly elements: FormElements;
-}
+import Link from 'next/link';
+import axios from 'axios'
+import { StatusContext } from '@/context/StatusContext';
+import { useRouter } from 'next/navigation'
 
 export default function SignUp() {
+
+    const router = useRouter()
+
+    const [fname, setFname] = React.useState<string | ''>('')
+    const [lname, setLname] = React.useState<string | ''>('')
+    const [username, setUsername] = React.useState<string | ''>('')
+    const [email, setEmail] = React.useState<string | ''>('')
+    const [password, setPassword] = React.useState<string | ''>('')
+
+    const {status, setStatus}:any = React.useContext(StatusContext)
+
+
+    const HandleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        const user = {
+            fname,
+            lname,
+            username,
+            email,
+            password
+        }
+
+        axios.post('http://localhost:5000/auth/signup',{user}).then((response)=>{
+            console.log("RESPONSE : ",response)
+            setStatus(true)
+            router.push('/')
+        })
+    }
+
     return (
         <CssVarsProvider>
             <CssBaseline />
@@ -39,9 +62,6 @@ export default function SignUp() {
                     justifyContent: 'flex-end',
                     backdropFilter: 'blur(12px)',
                     backgroundColor: 'rgba(255 255 255 / 0.2)',
-                    [theme.getColorSchemeSelector('dark')]: {
-                        backgroundColor: 'rgba(19 19 24 / 0.4)',
-                    },
                 })}
             >
                 <Box
@@ -93,51 +113,38 @@ export default function SignUp() {
                                 Signup with Google
                             </Button>
                         </Stack>
-                        <Divider
-                            sx={(theme) => ({
-                                [theme.getColorSchemeSelector('light')]: {
-                                    color: { xs: '#FFF', md: 'text.tertiary' },
-                                },
-                            })}
-                        >
+                        <Divider>
                             or
                         </Divider>
                         <Stack gap={3} sx={{ mt: 1 }}>
-                            <form
-                                onSubmit={(event: React.FormEvent<SignInFormElement>) => {
-                                    event.preventDefault();
-                                    const formElements = event.currentTarget.elements;
-                                    const data = {
-                                        email: formElements.email.value,
-                                        password: formElements.password.value,
-                                        persistent: formElements.persistent.checked,
-                                    };
-                                    alert(JSON.stringify(data, null, 2));
-                                }}
-                            >
-                                <Box 
+                            <form onSubmit={HandleSubmit}>
+                                <Box
                                     className="flex gap-2 max-w-auto relative pr-2"
                                 >
-                                    <FormControl 
+                                    <FormControl required
                                         className="w-6/12"
                                     >
                                         <FormLabel>First Name</FormLabel>
-                                        <Input type='text' name='fname' />
+                                        <Input type='text' name='fname' value={fname} onChange={(e) => setFname(e.target.value)} />
                                     </FormControl>
                                     <FormControl
                                         className="w-6/12"
                                     >
                                         <FormLabel>Last Name</FormLabel>
-                                        <Input type='text' name='lname' />
+                                        <Input type='text' name='lname' value={lname} onChange={(e) => setLname(e.target.value)} />
                                     </FormControl>
                                 </Box>
                                 <FormControl required>
+                                    <FormLabel >Username</FormLabel>
+                                    <Input type='text' name="username" value={username} onChange={(e) => setUsername(e.target.value)}></Input>
+                                </FormControl>
+                                <FormControl required>
                                     <FormLabel>Email</FormLabel>
-                                    <Input type="email" name="email" />
+                                    <Input type="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                                 </FormControl>
                                 <FormControl required>
                                     <FormLabel>Password</FormLabel>
-                                    <Input type="password" name="password" />
+                                    <Input type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} />
                                 </FormControl>
                                 <Stack gap={3} sx={{ mt: 2 }}>
                                     <Box
@@ -148,9 +155,11 @@ export default function SignUp() {
                                         }}
                                     >
                                         <Checkbox size="sm" label="Remember me" name="persistent" />
-                                        <Link level="title-sm" href="#replace-with-a-link">
-                                            Forgot your password?
-                                        </Link>
+                                        <Typography level="body-sm">
+                                            <Link href={'/signin'} className='underline text-blue-800'>
+                                                Already have an account?
+                                            </Link>
+                                        </Typography>
                                     </Box>
                                     <Button type="submit" fullWidth>
                                         Sign in

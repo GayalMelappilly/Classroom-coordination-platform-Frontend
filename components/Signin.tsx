@@ -9,20 +9,11 @@ import Checkbox from '@mui/joy/Checkbox';
 import Divider from '@mui/joy/Divider';
 import FormControl from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
-import Link from '@mui/joy/Link';
+import Link from 'next/link';
 import Input from '@mui/joy/Input';
 import Typography from '@mui/joy/Typography';
 import Stack from '@mui/joy/Stack';
 import GoogleIcon from './GoogleIcon';
-
-interface FormElements extends HTMLFormControlsCollection {
-    email: HTMLInputElement;
-    password: HTMLInputElement;
-    persistent: HTMLInputElement;
-}
-interface SignInFormElement extends HTMLFormElement {
-    readonly elements: FormElements;
-}
 
 export default function SignIn() {
     return (
@@ -82,8 +73,8 @@ export default function SignIn() {
                                 </Typography>
                                 <Typography level="body-sm">
                                     New to ClassSync? {' '}
-                                    <Link href="#replace-with-a-link" level="title-sm">
-                                        Sign up!
+                                    <Link href={'/signup'} className='underline text-blue-800'>
+                                            Signup
                                     </Link>
                                 </Typography>
                             </Stack>
@@ -106,18 +97,7 @@ export default function SignIn() {
                             or
                         </Divider>
                         <Stack gap={3} sx={{ mt: 1 }}>
-                            <form
-                                onSubmit={(event: React.FormEvent<SignInFormElement>) => {
-                                    event.preventDefault();
-                                    const formElements = event.currentTarget.elements;
-                                    const data = {
-                                        email: formElements.email.value,
-                                        password: formElements.password.value,
-                                        persistent: formElements.persistent.checked,
-                                    };
-                                    alert(JSON.stringify(data, null, 2));
-                                }}
-                            >
+                            <form>
                                 <FormControl required>
                                     <FormLabel>Email</FormLabel>
                                     <Input type="email" name="email" />
