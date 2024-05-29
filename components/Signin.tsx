@@ -14,8 +14,34 @@ import Input from '@mui/joy/Input';
 import Typography from '@mui/joy/Typography';
 import Stack from '@mui/joy/Stack';
 import GoogleIcon from './GoogleIcon';
+import { StatusContext } from '@/context/StatusContext';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 export default function SignIn() {
+
+    const router = useRouter()
+
+    const {status, setStatus}:any = React.useContext(StatusContext)
+
+    const [email, setEmail] = React.useState<string | ''>('')
+    const [password, setPassword] = React.useState<string | ''>('')
+
+    const HandleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        const user = {
+            email,
+            password
+        }
+        axios.post(`${process.env.APP_URL}/auth/signin`,{user}).then((response)=>{
+            console.log("VALID : ",response.data.validUser)
+            if(response.data.validUser){
+                setStatus(true)
+                router.push('/')
+            }
+        })
+    }
+
     return (
         <CssVarsProvider>
             <CssBaseline />
@@ -97,14 +123,14 @@ export default function SignIn() {
                             or
                         </Divider>
                         <Stack gap={3} sx={{ mt: 1 }}>
-                            <form>
+                            <form onSubmit={HandleSubmit}>
                                 <FormControl required>
                                     <FormLabel>Email</FormLabel>
-                                    <Input type="email" name="email" />
+                                    <Input type="email" name="email" value={email} onChange={(e)=>setEmail(e.target.value)}/>
                                 </FormControl>
                                 <FormControl required>
                                     <FormLabel>Password</FormLabel>
-                                    <Input type="password" name="password" />
+                                    <Input type="password" name="password" value={password} onChange={(e)=>setPassword(e.target.value)} />
                                 </FormControl>
                                 <Stack gap={3} sx={{ mt: 2 }}>
                                     <Box
@@ -115,7 +141,7 @@ export default function SignIn() {
                                         }}
                                     >
                                         <Checkbox size="sm" label="Remember me" name="persistent" />
-                                        <Link level="title-sm" href="#replace-with-a-link">
+                                        <Link href={''}>
                                             Forgot your password?
                                         </Link>
                                     </Box>

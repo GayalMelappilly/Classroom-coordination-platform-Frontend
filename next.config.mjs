@@ -1,4 +1,12 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const nextConfig = {
+    env: {
+        APP_URL: process.env.APP_URL,
+    },
+};
 
 export default nextConfig;

@@ -15,7 +15,6 @@ import Stack from '@mui/joy/Stack';
 import GoogleIcon from './GoogleIcon';
 import Link from 'next/link';
 import axios from 'axios'
-import { StatusContext } from '@/context/StatusContext';
 import { useRouter } from 'next/navigation'
 
 export default function SignUp() {
@@ -28,8 +27,9 @@ export default function SignUp() {
     const [email, setEmail] = React.useState<string | ''>('')
     const [password, setPassword] = React.useState<string | ''>('')
 
-    const {status, setStatus}:any = React.useContext(StatusContext)
-
+    React.useEffect(()=>{
+        console.log("URL : ",process.env.APP_URL)
+    },[])
 
     const HandleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -41,10 +41,9 @@ export default function SignUp() {
             password
         }
 
-        axios.post('http://localhost:5000/auth/signup',{user}).then((response)=>{
+        axios.post(`${process.env.APP_URL}/auth/signup`,{user}).then((response)=>{
             console.log("RESPONSE : ",response)
-            setStatus(true)
-            router.push('/')
+            router.push('/signin')
         })
     }
 
