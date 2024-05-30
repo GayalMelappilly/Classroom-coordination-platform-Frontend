@@ -32,7 +32,7 @@ const InnerLayout = ({ children }: { children: React.ReactNode }) => {
   console.log("STATUS : ", status);
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-slate-300`}>
+      <body className={`${inter.className} bg-slate-200`}>
         {/* {status ? <NavBar /> : null} */}
         {children}
       </body>
