@@ -9,6 +9,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Profile from './Profile';
 import AddIcon from '@mui/icons-material/Add';
+import { Button, Typography } from '@mui/material';
+import Link from 'next/link';
 
 const pages = ['Dashboard', 'Class', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -61,9 +63,18 @@ function NavBar({ toggleDrawer }: any) {
               <img className='h-10' src="../logo/ClassSync-logo-transparent-cropped-without-slogan.png" alt="IMAGE" />
             </Box>
           </Box>
-          <AddIcon className='text-black mr-4 rounded-full border-rose-400 border-2' />
+          <Box className='flex mr-8'>
+            <Button sx={{ backgroundColor: '#FF5733', color: '#fff' }} className='hover:bg-red-500'>
+              JOIN
+            </Button>
+            <Link href={'/create'}>
+              <Button sx={{ backgroundColor: '#0080ff', color: '#fff' }} className='mx-3 hover:bg-blue-500'>
+                <AddIcon />
+                Create
+              </Button>
+            </Link>
+          </Box>
           <Profile settings={settings} handleOpenUserMenu={handleOpenUserMenu} handleCloseUserMenu={handleCloseUserMenu} anchorElUser={anchorElUser} />
-
         </Toolbar>
       </Container>
     </AppBar>

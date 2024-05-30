@@ -9,7 +9,7 @@ export const StatusContext = createContext<StatusContextType | undefined>(undefi
 
 export const StatusContextProvider = ({children}: { children: React.ReactNode }) => {
 
-    const [status, setStatus] = useState(false);
+    const [status, setStatus] = useState(true);
     
     return (
         <StatusContext.Provider value={{status, setStatus}}>

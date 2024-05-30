@@ -1,7 +1,7 @@
 import { Box, Card, CardActionArea, CardContent, CardMedia, Container, Typography } from '@mui/material'
 import React from 'react'
 
-const CreateCard = ({index}:any) => {
+const CreateCard = ({index, forCreate}:any) => {
     return (
         <>
             <Container className='my-10'>
