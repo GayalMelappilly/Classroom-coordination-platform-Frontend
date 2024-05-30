@@ -8,7 +8,7 @@ import React from "react";
 
 export default function Home() {
 
-  const index = [1, 2, 3, 4, 5, 6, 7, 8]
+  const index = [1, 2, 3]
 
   return (
     <div>

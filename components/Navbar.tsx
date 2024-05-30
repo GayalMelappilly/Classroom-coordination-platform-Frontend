@@ -55,13 +55,15 @@ function NavBar({ toggleDrawer }: any) {
               display: 'flex',
               width: { xs: '100%', md: '100%' },
             }}>
-            <Box
-              sx={{
-                display: 'flex',
-                mx: { xs: 'auto', md: 1 },
-              }}>
-              <img className='h-10' src="../logo/ClassSync-logo-transparent-cropped-without-slogan.png" alt="IMAGE" />
-            </Box>
+            <Link href={'/'}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  mx: { xs: 'auto', md: 1 },
+                }}>
+                <img className='h-10' src="../logo/ClassSync-logo-transparent-cropped-without-slogan.png" alt="IMAGE" />
+              </Box>
+            </Link>
           </Box>
           <Box className='flex mr-8'>
             <Button sx={{ backgroundColor: '#FF5733', color: '#fff' }} className='hover:bg-red-500'>
