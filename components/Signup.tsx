@@ -27,11 +27,11 @@ export default function SignUp() {
     const [email, setEmail] = React.useState<string | ''>('')
     const [password, setPassword] = React.useState<string | ''>('')
 
-    React.useEffect(()=>{
-        console.log("URL : ",process.env.APP_URL)
-    },[])
+    React.useEffect(() => {
+        console.log("URL : ", process.env.NEXT_PUBLIC_APP_URL)
+    }, [])
 
-    const HandleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const HandleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const user = {
             fname,
@@ -41,11 +41,17 @@ export default function SignUp() {
             password
         }
 
-        axios.post(`${process.env.APP_URL}/auth/signup`,{user}).then((response)=>{
-            console.log("RESPONSE : ",response)
-            router.push('/signin')
-        })
+        try {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_APP_URL}/auth/signup-with-email-and-password`, { user });
+            console.log("RESPONSE : ", response.data);
+        } catch (error) {
+            console.error("Error during sign up:", error);
+        }
     }
+
+    const HandleGoogleSignup = () => {
+        window.location.href = `${process.env.NEXT_PUBLIC_APP_URL}/auth/google`;
+    };
 
     return (
         <CssVarsProvider>
@@ -104,6 +110,7 @@ export default function SignUp() {
                                 </Typography>
                             </Stack>
                             <Button
+                                onClick={HandleGoogleSignup}
                                 variant="soft"
                                 color="neutral"
                                 fullWidth
