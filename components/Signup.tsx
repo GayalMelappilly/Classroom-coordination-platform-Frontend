@@ -42,6 +42,7 @@ export default function SignUp() {
         }
 
         try {
+            axios.defaults.withCredentials = true;
             const response = await axios.post(`${process.env.NEXT_PUBLIC_APP_URL}/auth/signup-with-email-and-password`, { user });
             console.log("RESPONSE : ", response.data);
         } catch (error) {
