@@ -52,7 +52,8 @@ export default function SignUp() {
             axios.defaults.withCredentials = true;
             const response = await axios.post(`${process.env.NEXT_PUBLIC_APP_URL}/auth/signup-with-email-and-password`, { user });
             if(response.data){
-                setStatus(true)
+                console.log("RESPONSE : ", response.data)
+                localStorage.setItem('user-info', JSON.stringify(response.data.userInfo))
                 router.push('/')
             }
         } catch (error) {
