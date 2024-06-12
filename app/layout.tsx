@@ -40,7 +40,7 @@ const InnerLayout = ({ children }: { children: React.ReactNode }) => {
     <html lang="en">
       <body className={`${inter.className} bg-slate-200`}>
         {status ? <NavBar toggleDrawer={toggleDrawer} open={open} /> : null}
-        {status ? <Sidebar toggleDrawer={toggleDrawer} open={open} /> : null }
+        {status ? <Sidebar toggleDrawer={toggleDrawer} open={open} /> : null}
         {children}
       </body>
     </html>
